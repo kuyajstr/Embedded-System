@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Date Time Picker</title>
+
+</head>
+
+
+<body>
+
+    <form id="date_range" method="GET">
+
+        <div class="date-picker">
+            <label for="from">select start date:</label>
+            <input type="datetime-local" id="from" name="from"
+            pattern="[0-9]{4}-[0-9]{2}-[0-9]{2} [0-9]{2}:[0-9]{2}"
+            required onchange="testFunction()">
+
+        </div>
+
+        <div class="date-picker">
+            <label for="to">select end date:</label>
+            <input type="datetime-local" id="to" name="to" required disabled>
+
+        </div>
+
+        <!-- <input type="submit" value="Submit" id="submit_button"> -->
+
+    </form>
+
+    <form id="empty" method="GET">
+        <!-- RETURN EMPTY QUERY -->
+
+        <!-- <input type="submit" value="Clear" id="clear_button"> -->
+
+    </form>
+
+    <input type="submit" form="date_range" value="Submit"/>
+
+    <input type="submit" form="empty" value="Clear"/>
+
+
+
+</body>
+
+<script>
+
+    function testFunction()
+    {
+        let toDate = document.getElementById("to");
+
+        toDate.min = document.getElementById("from").value;
+
+        toDate.disabled = false;
+    }
+
+</script>
+
+
+</html>

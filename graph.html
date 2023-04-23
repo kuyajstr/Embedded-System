@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body>
+    <div class="graphContainer" style="width:48%; float:left;">
+        <h2>Temperature</h2>
+        <canvas id="tempChart" ></canvas>
+    </div>
+    <div class="graphContainer" style="width:48%; float:right;">
+        <h2>Humidity</h2>
+        <canvas id="humChart" ></canvas>
+    </div>
+    
+    
+
+    <script>
+        
+
+        function createChart(id, values, timestamps) {
+            const ctx = document.getElementById(id).getContext('2d');
+
+            // let value = [1,3,6,0,2];
+            // let time = [1,2,3,4,5];
+
+            let value = values;
+            let time = timestamps;
+
+            var config = {
+                type: 'line',
+                data: {
+                    labels: time,
+                    datasets: [{
+                        borderColor: "black",
+                        borderWidth: 1,
+                        radius: 0,
+                        data: value
+                    }]
+                },
+                options: {
+                    interaction: {
+                        intersect: false
+                    },
+                    plugins: {
+                        legend: false
+                    },
+                    scales: {
+                        x: {
+                            display:false,
+                            // type: 'linear'
+                        }
+                    }
+                }
+            };
+
+            return new Chart(ctx, config);
+        }
+        
+        // const xchart = createChart('tempChart');
+        // const ychart = createChart('humChart');
+
+        const xchart = createChart('tempChart', [1,3,6,0,2], [1,2,3,4,5]);
+        const ychart = createChart('humChart', [2,4,9,3,1], [1,2,3,4,5]);
+
+        // const xchart = createChart('tempChart', {{tmstmp}}, {{temp}});
+        // const ychart = createChart('humChart', {{tmstmp}}, {{hum}});
+    </script>
+</body>
+
+</html>

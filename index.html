@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DHT Monitoring System</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <style>
+        body {
+            width: auto;
+            margin: auto;
+            display: flex;
+            flex-direction: column;
+            font-family: Rockwell;
+        }
+
+        .header {
+            background-color: black;
+            color: white;
+            text-align: center;
+        }
+
+        .content {
+            padding: 1%;
+            width: auto;
+            color: black;
+            background-color: gainsboro;
+        }
+
+        .main-container {
+            width: auto;
+            margin: auto;
+            display: flex;
+            flex-direction: row;
+        }
+
+        .main-container .readings-container {
+            flex: 1;
+            text-align: center;
+            /* border: 1px solid black; */
+        }
+
+        .main-container .control-container {
+            flex: 2;
+            /* border: 1px solid black; */
+        }
+
+        .log-container {
+            width: 100%;
+            height: 600px;
+            margin: auto;
+            display: flex;
+            flex-direction: row;
+        }
+
+        .log-container .table-container {
+            height: auto;
+            flex: 1;
+            
+            /* border: 1px solid black; */
+        }
+
+        .log-container .graph-container {
+            height: 100%;
+            flex: 2;
+            
+            /* border: 1px solid black; */
+        }
+
+
+        .table-container .table-body {
+            height: 550px;
+            overflow: auto;
+            overflow-y: auto;
+            overflow-x: hidden;
+        }
+
+        table {
+            width: 100%;
+            font-size: 24px;
+        }
+
+        .table-container th, .current-readings td  {
+            text-align: center;
+            width: 50%;
+        }
+
+
+        .control-container .date-picker{
+            margin-top: 10px;
+            margin-bottom: 10px;
+        }
+
+        .date-picker label, .date-picker input{
+            font-size: 21px;
+        }
+
+        
+        .range-selector label, .range-selector input{
+            font-size: 21px;
+        }
+
+    </style>
+</head>
+
+<body>
+    <div class="header">
+        <h1>DHT 11 Monitoring System</h1>
+    </div>
+
+    <div class="content">
+
+        <div class="main-container">
+            <div class="readings-container">
+
+                <div class="current-readings">
+                    <h2>Current Readings</h2>
+                    <table id="currentReadings">
+                        <thead>
+                            <tr>
+                                <th>Temperature</th>
+                                <th>Humidity</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td id="currentTemp">
+                                    18 °C
+                                    <!-- {{temp}} -->
+                                </td>
+                                <td id="currentHum">
+                                    40%
+                                    <!-- {{hum}} -->
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="control-container">
+                <h2>Controls</h2>
+
+                <div class="date-selector">
+
+                    <div class="date-picker">
+                        <label for="start">select start date:</label>
+                        <input type="date" id="start" name="start" min="2022-01-01" value="2022-01-01">
+                    </div>
+
+                    <div class="date-picker">
+                        <label for="end">select end date:</label>
+                        <input type="date" id="end" name="end" min="2022-01-01" value="2022-01-01">
+                    </div>
+
+                </div>
+
+                <div class="range-selector">
+                    
+                    <input type="radio" id="radio_3" name="range_h" value="3">
+                    <label for="radio_3">3 Hours</label>
+
+                    <input type="radio" id="radio_6" name="range_h" value="6">
+                    <label for="radio_6">6 Hours</label>
+
+                    <input type="radio" id="radio_12" name="range_h" value="12">
+                    <label for="radio_12">12 Hours</label>
+                </div>
+
+
+            </div>
+
+        </div>
+
+        <div class="log-container">
+
+            <!-- <h2>Temperature Log</h2> -->
+
+            <div class="table-container" style="height:600px">
+                <div id="loggerData">
+                    <div class="table-header">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Date</th>
+                                    <th>Temperature (°C)</th>
+                                </tr>
+                            </thead>
+                        </table>
+                    </div>
+                    <div class="table-body">
+                        <table>
+                            <tbody>
+                                <!-- {% for row in temp %}
+                                    <tr>
+                                        <td>{{row[0]}}</td>
+                                        <td>{{'%0.2f'|format(row[2])}}</td>
+                                    </tr>
+                                    {% endfor %} -->
+
+                                <tr>
+                                    <th>01-01-2022 00:00</th>
+                                    <th>20</th>
+                                </tr>
+                                <tr>
+                                    <th>01-01-2022 00:00</th>
+                                    <th>20</th>
+                                </tr>
+                                <tr>
+                                    <th>01-01-2022 00:00</th>
+                                    <th>20</th>
+                                </tr>
+                                <tr>
+                                    <th>01-01-2022 00:00</th>
+                                    <th>20</th>
+                                </tr>
+                                <tr>
+                                    <th>01-01-2022 00:00</th>
+                                    <th>20</th>
+                                </tr>
+                                <tr>
+                                    <th>01-01-2022 00:00</th>
+                                    <th>20</th>
+                                </tr>
+                                <tr>
+                                    <th>01-01-2022 00:00</th>
+                                    <th>20</th>
+                                </tr>
+                                <tr>
+                                    <th>01-01-2022 00:00</th>
+                                    <th>20</th>
+                                </tr>
+                                <tr>
+                                    <th>01-01-2022 00:00</th>
+                                    <th>20</th>
+                                </tr>
+                                <tr>
+                                    <th>01-01-2022 00:00</th>
+                                    <th>20</th>
+                                </tr>
+                                <tr>
+                                    <th>01-01-2022 00:00</th>
+                                    <th>20</th>
+                                </tr>
+                                <tr>
+                                    <th>01-01-2022 00:00</th>
+                                    <th>20</th>
+                                </tr>
+                                <tr>
+                                    <th>01-01-2022 00:00</th>
+                                    <th>20</th>
+                                </tr>
+                                <tr>
+                                    <th>01-01-2022 00:00</th>
+                                    <th>20</th>
+                                </tr>
+                                <tr>
+                                    <th>01-01-2022 00:00</th>
+                                    <th>20</th>
+                                </tr>
+                                <tr>
+                                    <th>01-01-2022 00:00</th>
+                                    <th>20</th>
+                                </tr>
+                                <tr>
+                                    <th>01-01-2022 00:00</th>
+                                    <th>20</th>
+                                </tr>
+                                <tr>
+                                    <th>01-01-2022 00:00</th>
+                                    <th>20</th>
+                                </tr>
+                                <tr>
+                                    <th>01-01-2022 00:00</th>
+                                    <th>20</th>
+                                </tr>
+                                <tr>
+                                    <th>01-01-2022 00:00</th>
+                                    <th>20</th>
+                                </tr>
+                                <tr>
+                                    <th>01-01-2022 00:00</th>
+                                    <th>20</th>
+                                </tr>
+                                <tr>
+                                    <th>01-01-2022 00:00</th>
+                                    <th>20</th>
+                                </tr>
+                                <tr>
+                                    <th>01-01-2022 00:00</th>
+                                    <th>20</th>
+                                </tr>
+                                <tr>
+                                    <th>01-01-2022 00:00</th>
+                                    <th>20</th>
+                                </tr>
+                                <tr>
+                                    <th>01-01-2022 00:00</th>
+                                    <th>20</th>
+                                </tr>
+                                <tr>
+                                    <th>01-01-2022 00:00</th>
+                                    <th>20</th>
+                                </tr>
+                                <tr>
+                                    <th>01-01-2022 00:00</th>
+                                    <th>20</th>
+                                </tr>
+                                <tr>
+                                    <th>01-01-2022 00:00</th>
+                                    <th>20</th>
+                                </tr>
+                                <tr>
+                                    <th>01-01-2022 00:00</th>
+                                    <th>20</th>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="graph-container">
+                <h2>Temperature Graph</h2>
+                <canvas id="tempChart"></canvas>
+            </div>
+
+        </div>
+
+        <div class="log-container">
+
+            <!-- <h2>Humidity Log</h2> -->
+
+            <div class="table-container">
+                <div id="loggerData">
+                    <div class="table-header">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Date</th>
+                                    <th>Humidity (%)</th>
+                                </tr>
+                            </thead>
+                        </table>
+                    </div>
+                    <div class="table-body">
+                        <table>
+                            <tbody>
+                                <!-- {% for row in hum %}
+                                <tr>
+                                    <td>{{row[0]}}</td>
+                                    <td>{{'%0.2f'|format(row[2])}}</td>
+                                </tr>
+                                {% endfor %} -->
+
+                                <tr>
+                                    <th>01-01-2022 00:00</th>
+                                    <th>20</th>
+                                </tr>
+                                <tr>
+                                    <th>01-01-2022 00:00</th>
+                                    <th>20</th>
+                                </tr>
+                                <tr>
+                                    <th>01-01-2022 00:00</th>
+                                    <th>20</th>
+                                </tr>
+                                <tr>
+                                    <th>01-01-2022 00:00</th>
+                                    <th>20</th>
+                                </tr>
+                                <tr>
+                                    <th>01-01-2022 00:00</th>
+                                    <th>20</th>
+                                </tr>
+                                <tr>
+                                    <th>01-01-2022 00:00</th>
+                                    <th>20</th>
+                                </tr>
+                                <tr>
+                                    <th>01-01-2022 00:00</th>
+                                    <th>20</th>
+                                </tr>
+                                <tr>
+                                    <th>01-01-2022 00:00</th>
+                                    <th>20</th>
+                                </tr>
+                                <tr>
+                                    <th>01-01-2022 00:00</th>
+                                    <th>20</th>
+                                </tr>
+                                <tr>
+                                    <th>01-01-2022 00:00</th>
+                                    <th>20</th>
+                                </tr>
+                                <tr>
+                                    <th>01-01-2022 00:00</th>
+                                    <th>20</th>
+                                </tr>
+                                <tr>
+                                    <th>01-01-2022 00:00</th>
+                                    <th>20</th>
+                                </tr>
+                                <tr>
+                                    <th>01-01-2022 00:00</th>
+                                    <th>20</th>
+                                </tr>
+                                <tr>
+                                    <th>01-01-2022 00:00</th>
+                                    <th>20</th>
+                                </tr>
+                                <tr>
+                                    <th>01-01-2022 00:00</th>
+                                    <th>20</th>
+                                </tr>
+                                <tr>
+                                    <th>01-01-2022 00:00</th>
+                                    <th>20</th>
+                                </tr>
+                                <tr>
+                                    <th>01-01-2022 00:00</th>
+                                    <th>20</th>
+                                </tr>
+                                <tr>
+                                    <th>01-01-2022 00:00</th>
+                                    <th>20</th>
+                                </tr>
+                                <tr>
+                                    <th>01-01-2022 00:00</th>
+                                    <th>20</th>
+                                </tr>
+                                <tr>
+                                    <th>01-01-2022 00:00</th>
+                                    <th>20</th>
+                                </tr>
+                                <tr>
+                                    <th>01-01-2022 00:00</th>
+                                    <th>20</th>
+                                </tr>
+                                <tr>
+                                    <th>01-01-2022 00:00</th>
+                                    <th>20</th>
+                                </tr>
+                                <tr>
+                                    <th>01-01-2022 00:00</th>
+                                    <th>20</th>
+                                </tr>
+                                <tr>
+                                    <th>01-01-2022 00:00</th>
+                                    <th>20</th>
+                                </tr>
+                                <tr>
+                                    <th>01-01-2022 00:00</th>
+                                    <th>20</th>
+                                </tr>
+                                <tr>
+                                    <th>01-01-2022 00:00</th>
+                                    <th>20</th>
+                                </tr>
+                                <tr>
+                                    <th>01-01-2022 00:00</th>
+                                    <th>20</th>
+                                </tr>
+                                <tr>
+                                    <th>01-01-2022 00:00</th>
+                                    <th>20</th>
+                                </tr>
+                                <tr>
+                                    <th>01-01-2022 00:00</th>
+                                    <th>20</th>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="graph-container">
+                <h2>Humidity Graph</h2>
+                <canvas id="humChart"></canvas>
+            </div>
+
+        </div>
+
+    </div>
+
+</body>
+
+<script>
+
+    function createChart(id, values, timestamps) {
+        const ctx = document.getElementById(id).getContext('2d');
+
+        let value = values;
+        let time = timestamps;
+
+        var config = {
+            type: 'line',
+            data: {
+                labels: time,
+                datasets: [{
+                    borderColor: "black",
+                    borderWidth: 2,
+                    radius: 1,
+                    data: value
+                }]
+            },
+            options: {
+                interaction: {
+                    intersect: false
+                },
+                plugins: {
+                    legend: false
+                }
+            }
+        };
+
+        return new Chart(ctx, config);
+    }
+
+    const xchart = createChart('tempChart', [1, 3, 0, 4, 1], ['1 AM', '2 AM', '3 AM', '4 AM', '5 AM']);
+    const ychart = createChart('humChart', [2, 4, 9, 3, 1], ['1 AM', '2 AM', '3 AM', '4 AM', '5 AM']);
+</script>
+
+</html>
